@@ -11,6 +11,16 @@ Dictionary :: Dictionary()
   }
 }
 
+void Dictionary :: insert(std::string str)
+{
+  arr[0]->insert(str);
+}
+
+void Dictionary :: print()
+{
+  arr[0]->printList();
+}
+
 void Dictionary :: spellCheck(std::string str)
 {
   LinkedList suggest;
@@ -68,4 +78,13 @@ void Dictionary :: spellCheck(std::string str)
       std::cout << dummy << std::endl;
     }
   }
+}
+
+Dictionary :: ~Dictionary()
+{
+  for(int i = 0; i < size; i++)
+  {
+    delete arr[i];
+  }
+  delete [] arr;
 }

@@ -23,6 +23,8 @@ class Dictionary
     bool search(std::string str);
     int hash(std::string str);
     void spellCheck(std::string str);
+    void print();
+    ~Dictionary();
 
 };
 
