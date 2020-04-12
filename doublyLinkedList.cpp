@@ -29,6 +29,32 @@ void LinkedList :: insert(std::string str)
   size++;
 }
 
+bool LinkedList :: searchList(std::string str)
+{
+  Node* cursor = head;
+  while(cursor != NULL)
+  {
+    if(cursor->key.compare(str) == 0)
+    {
+      return true;
+    }
+    cursor = cursor->next;
+  }
+  return false;
+}
+
+bool LinkedList :: isEmpty()
+{
+  if(head == NULL)
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
+
 int LinkedList :: getListSize()
 {
   return size;

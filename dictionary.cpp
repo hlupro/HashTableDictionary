@@ -13,12 +13,42 @@ Dictionary :: Dictionary()
 
 void Dictionary :: insert(std::string str)
 {
-  arr[0]->insert(str);
+  int num = strHash(str);
+  arr[num]->insert(str);
 }
 
 void Dictionary :: print()
 {
   arr[0]->printList();
+}
+
+void Dictionary :: readFile()
+{
+  int num = 0;
+  std::string str;
+  std::ifstream inFile;
+  inFile.open("english.txt");
+
+  if(inFile)
+  {
+
+    while(getline(inFile, str))
+    {
+      insert(str);
+      num++;
+    }
+    inFile.close();
+  }
+  else
+  {
+    std::cout << "Unable to open file." << std::endl;
+  }
+  std::cout << num << std::endl;
+}
+
+bool Dictionary :: search(std::string str)
+{
+  return arr[strHash(str)]->searchList(str);
 }
 
 void Dictionary :: spellCheck(std::string str)
@@ -78,6 +108,19 @@ void Dictionary :: spellCheck(std::string str)
       std::cout << dummy << std::endl;
     }
   }
+}
+
+void Dictionary :: numOfBucket()
+{
+  int num = 0;
+  for(int i = 0; i < size; i++)
+  {
+    if(arr[i]->isEmpty() != true)
+    {
+      num++;
+    }
+  }
+  std::cout << num << std::endl;
 }
 
 Dictionary :: ~Dictionary()

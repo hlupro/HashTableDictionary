@@ -21,7 +21,8 @@ public:
 	LinkedList(); //default constructor
 	void insert(std::string str); //insert student function
 	int getListSize(); //get list size function
-	void searchList(std::string);
+	bool searchList(std::string str);
+  bool isEmpty();
   void printList(); //search for a specific student function
   ~LinkedList();
 };

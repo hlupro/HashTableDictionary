@@ -5,11 +5,12 @@ int main()
   Dictionary webster;
   std::string str = "HELLO";
   //webster.spellCheck(str);
-  std::cout << char(120) << std::endl;
-  webster.insert("HELLO WORLD");
-  webster.insert("PLease");
-  webster.insert("YAY");
-  webster.print();
-
+  webster.readFile();
+  //webster.print();
+  webster.numOfBucket();
+  if(webster.search("1st"))
+  {
+    std::cout << "Found" << std::endl;
+  }
 
 }

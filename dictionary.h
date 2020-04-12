@@ -4,6 +4,8 @@
 #include <iostream>
 #include <string>
 #include "doublyLinkedList.h"
+#include <fstream>
+#include "hash.h"
 
 
 class Dictionary
@@ -12,7 +14,6 @@ class Dictionary
     int size;
     int largest;
     int smallest;
-    int used;
     int averageNode;
     double time;
     LinkedList** arr;
@@ -20,9 +21,11 @@ class Dictionary
   public:
     Dictionary();
     void insert(std::string str);
+    void readFile();
     bool search(std::string str);
     int hash(std::string str);
     void spellCheck(std::string str);
+    void numOfBucket();
     void print();
     ~Dictionary();
 
