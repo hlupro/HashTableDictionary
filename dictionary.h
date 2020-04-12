@@ -9,7 +9,7 @@
 class Dictionary
 {
   private:
-    int size = 10000;
+    int size;
     int largest;
     int smallest;
     int used;
@@ -19,10 +19,10 @@ class Dictionary
 
   public:
     Dictionary();
-    void insert(std::string);
-    bool search(std::string);
-    int hash(std::string);
-    void spellCheck(std::string);
+    void insert(std::string str);
+    bool search(std::string str);
+    int hash(std::string str);
+    void spellCheck(std::string str);
 
 };
 

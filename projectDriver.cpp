@@ -2,12 +2,9 @@
 
 int main()
 {
-  //Dictionary webster;
-  LinkedList list;
-  list.insert("TEST");
-  list.insert("HI");
-  list.insert("FEVER");
-  std::cout << list.getListSize() << std::endl;
-  list.printList();
+  Dictionary webster;
+  std::string str = "HELLO";
+  //webster.spellCheck(str);
+  std::cout << char(120) << std::endl;
   return 0;
 }
