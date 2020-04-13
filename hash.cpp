@@ -1,3 +1,8 @@
+//Hunter Lupro
+//Project2
+//Dr. Anderson
+//April 12, 2020
+//hash.cpp
 #include "hash.h"
 size_t hash(size_t x)
 {

@@ -1,8 +1,16 @@
+//Hunter Lupro
+//Project2
+//Dr. Anderson
+//April 12, 2020
+//dictionary.cpp
 #include "dictionary.h"
 
 Dictionary :: Dictionary()
 {
   size = 10000;
+  largest = 0;
+  smallest = 0;
+  averageNode = 0;
   arr = new LinkedList*[size];
 
   for(int i = 0; i < size; i++)
@@ -11,18 +19,45 @@ Dictionary :: Dictionary()
   }
 }
 
-void Dictionary :: insert(std::string str)
+void Dictionary :: findAll() //Finds all the statistical data about the dictionary
 {
-  int num = strHash(str);
-  arr[num]->insert(str);
+  largest = arr[1]->size;
+  smallest = arr[1]->size;
+  for(int i  = 1; i < size; i++)
+  {
+    if(arr[i]->size > largest)
+    {
+      largest = arr[i]->size;
+    }
+    if(arr[i]->size < smallest)
+    {
+      smallest = arr[i]->size;
+    }
+  }
+  averageNode = (double)words / (double)size;
+  std::cout << "----------------------------------------------\n";
+  std::cout << "Loading DataBase\n";
+  std::cout << "----------------------------------------------\n";
+  std::cout << "Total words = " << words << std::endl;
+  std::cout << "Biggest Bucket size = " << largest << std::endl;
+  std::cout << "Smallest bucket size = " << smallest << std::endl;
+  std::cout << "Total number of buckets = " << size << std::endl;
+  std:: cout << "Number of Buckets Used = " << numOfBucket() << std::endl;
+  std::cout << "Average number of nodes in each bucket = " << averageNode << std::endl;
 }
 
-void Dictionary :: print()
+void Dictionary :: insert(std::string str) //inserts a word into the dictionary
+{
+  int num = strHash(str); //hash of the string which determines what bucket
+  arr[num]->insert(str); //string is inserted
+}
+
+void Dictionary :: print() //prints the List
 {
   arr[0]->printList();
 }
 
-void Dictionary :: readFile()
+void Dictionary :: readFile() //Reads in strings from a file and inserts them into dictionary
 {
   int num = 0;
   std::string str;
@@ -43,75 +78,65 @@ void Dictionary :: readFile()
   {
     std::cout << "Unable to open file." << std::endl;
   }
-  std::cout << num << std::endl;
+  words = num;
 }
 
-bool Dictionary :: search(std::string str)
+bool Dictionary :: search(std::string str) //searches for a word in the dictionary
 {
   return arr[strHash(str)]->searchList(str);
 }
 
-void Dictionary :: spellCheck(std::string str)
-{
-  LinkedList suggest;
-  std::string dummy = str;
 
-  for(int i = 0; i < str.length() -1; i++) //generates every letter combination possible
+void Dictionary :: extractString(std::string str, LinkedList* mispelled) //Extracts words from a string
+{
+  int len = 1;
+  int end = str.length();
+  std::string strSub;
+  int j;
+
+  for(int i = 0; i < str.length(); i+=len) //For loop that extracts words from a string. i is the start pos
   {
-    for(int j = i+1; j <str.length();j++)
+    len = 1; //using the str.substr function I need the length of the substring which is len
+    j = i;  //j iterates through the string until it hits a space or punctuation
+    while(j < str.length()-1 && str.at(j) != ' ' && str.at(j) != '.' && str.at(j) != '!' && str.at(j) != '?') //Until j is equal to a space or punctuation keep incrementing
     {
-      dummy = str;
-      char temp = dummy[i];
-      dummy[i] = dummy[j];
-      dummy[j] = temp;
-      if(dummy.compare(str) != 0)
+      j++;
+      len++;
+    }
+    if(str.at(j) == '.' || str.at(j) == '!' || str.at(j) == '?') //If j is a punctuation char, take the substring at i and len-1 so the char is not added
+    {
+      strSub = str.substr(i,len-1);
+      len++;   //increment length so the next loop starts at the next non space char.
+      if(search(strSub) != true)
       {
-      //  std::cout << dummy << std::endl;
+        mispelled->insert(strSub);
       }
     }
-  }
-
-  for(int i = 0; i < str.length() + 1; i++)
-  {
-
-    for(int j = 97; j < 123; j++) //Adds a lowercase letter
+    else
     {
-      // char c = char(j);
-      dummy = str;
-      dummy.insert(i,1,char(j));
-    //  std::cout << dummy << std::endl;
-    }
-    for(int j = 65; j < 91; j++) //Adds a capital letter
-    {
-      // char c = char(j);
-      dummy = str;
-      dummy.insert(i,1,char(j));
-    //  std::cout << dummy << std::endl;
-    }
-  }
-
-  for(int i = 0; i < str.length(); i++) //replacement and delete edit
-  {
-    dummy = str;
-    dummy.erase(i,1);
-    std::cout << dummy << std::endl;
-    for(int j = 97; j < 123; j++) //Replaces char at pos i with char(j) "lowercase"
-    {
-      dummy = str;
-      dummy.replace(i,1,1,char(j));
-      std::cout << dummy << std::endl;
-    }
-    for(int j = 65; j < 91; j++) //Replaces char at pos i with char(j) "uppercase"
-    {
-      dummy = str;
-      dummy.replace(i,1,1,char(j));
-      std::cout << dummy << std::endl;
+      if(str.at(j) == str.at(end-1))
+      {
+          strSub = str.substr(i,len);
+          if(search(strSub) != true)
+          {
+            mispelled->insert(strSub);
+          }
+      }
+      else
+      {
+        strSub = str.substr(i,len-1); //If j is a space, take the substring at i,len
+        if(search(strSub) != true)
+        {
+          mispelled->insert(strSub);
+        }
+      }
     }
   }
 }
 
-void Dictionary :: numOfBucket()
+int Dictionary :: numOfBucket() //Returns number of buckets in use
 {
+
   int num = 0;
   for(int i = 0; i < size; i++)
   {
@@ -120,7 +145,8 @@ void Dictionary :: numOfBucket()
       num++;
     }
   }
-  std::cout << num << std::endl;
+
+  return num;
 }
 
 Dictionary :: ~Dictionary()
