@@ -1,0 +1,45 @@
+To run this program type make and then ./proj
+
+The program is case sensitive as in This != this
+
+
+My code for Project2 relies upon the use of two classes, a dictionary class and
+a doubly Linked List class. The dictionary class is made up of an array of pointers
+to linked lists.
+At the beginning of the program the function readFile() is called which takes
+input from a file containing strings and inserts the strings into the dictionary
+by first hashing the string and inserting that into the dictionary by arr[hash(string)]
+After the dictionary is filled, statistics are calculated and printed.
+
+The program then allows the user to type some text which is taken as a string and then
+put through the function extractString(string str, LinkedList* input) which works
+extracting every possible word from the text inputted. Words are classified
+by the ' ' character and punctuation. Once any of these chars are detected. a string
+is created from the chars before them and inserted into a linked list.
+
+Then each node in the list is searched for in the dictionary and if it doesn't show up
+it is put into another linked list full of mispelled strings.
+
+Next, the function looks for suggestions by finding all strings within 1-2 edit
+distances of the strings. To do this, spellCheck() is called which creates a linked list
+of every possible permutation of a string. Then that list is searchde for in the dictionary
+and if it is found, that string is stored in another linked list called oneEdit. If
+any oneEdit's were found then spellCheck is called on every node in OneEdit to determine
+the strings that are two edit distances away.
+
+Once, all the edits are found they are printed and then at the end of the program
+statistics about the strings are printed. Examples of this are how many mispellings,
+suggestions and time it took to find suggestions.
+
+A big issue with this was scope errors. I gathered all my misspelled words in a list
+and couldn't find a way to use the dictionary from inside the list. In order to bypass
+this I had to make all of my LinkedList class public so I could work inside the main.
+A big improvement would be to rework the structure of my classes so i could traverse a
+linked list inside the dictionary class. In order to find all strings within 1-2 edit
+distances, I brute forced generated all of them and a big improvement I could make
+on this would be to convert all the strings to one case so I don't have to worry about
+doing both upper and lower case generation.
+
+My code for this project follows the same multiplication hash algorithm Used
+in lab7. I hashed all the strings by accounting for position so the hashes were more
+spread out.
